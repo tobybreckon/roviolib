@@ -1,0 +1,6 @@
+// Copyright (c) 2011 Toby Breckon, School of Engineering, Cranfield University
+
+// All versions of this software (both binary and source) must retain
+// and display this copyright notice.
+
+// License : GPL - http://www.gnu.org/copyleft/gpl.html
