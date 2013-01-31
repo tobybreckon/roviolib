@@ -1,0 +1,55 @@
+Version 0.2x
+- forward kinematics provision (robot position in delta X,Y + rotation theta) 
+- provided rovio example updated to display encoders/base station info
+- interface to wheel encoder information changed
+- operation to wheel encoders fixed to be accumalative 
+  inside Rovio:: object itself (thanks to Phil Ryder)
+- major bug in reading wheel encoders fixed (inspired by Phil Ryder)
+- robot name available as Rovio::name inside robot object
+- streaming video fixed and cross-platform (thanks to Rudy Anglet)
+- wlan scanning added (available via custom firmware) (thanks to Rudy Anglet)
+- return base station information (thanks to Rudy Anglet)
+
+Version 0.15x
+- streaming video interface added (see rovio_cc_lib.h)
+
+Version 0.15
+- fix to timing of waitUntilComplete() under MS Windows and bug fix for case
+  when seconds > 1. (thanks to Peter Pinggera)
+- fixed use of the system sleep() function for MS Windows and Linux to make
+  it consistent and operate in seconds for both platforms when rovio_cc_lib.h
+  is used.
+- moved all the platform specific #def to the same place in rovio_cc_lib.h
+- added getResoltuion() and getFramerate() (thanks to Pedro Cavestany)
+- improved version of getVideo() added (thanks to Pedro Cavestany)
+
+Version 0.14
+- a very minor change to the way in which the testharness.cc code demonstrates
+  and tests the turning of the robot by D degrees. The code of the library
+  itself has not changed.
+
+Version 0.13
+- fixed a bug in the use of strcpy_s() in protected sendToRobot() method
+  (and also getVideo()) where some of the lengths for string copy verification
+  were not set correctly. This appeared to cause builds using Debug
+  configuration under MS Windows VS 2008 to crash (may also effect other
+  MS Windows). Did not effect Release builds under the same. Linux
+  uneffected as strcpy_s() and others are MACRO replaced for non MS Windows
+  platforms (see bottom of rovio_cc_lib.h). (thanks to Gabor Lovei)
+- added buffer size display to verbose mode text for getImage()
+- added buffer validity checks to check we get a JPEG looking buffer
+  back from the robot before we attempt to decode it in getImage()
+
+Version 0.12
+- set default Night Mode frame rate to 2 so that setNightMode(true)
+  actually does something useful (thanks to Greg Flitton)
+- updates to README.txt + rovio_cc_lib.h (documentation only)
+
+Version 0.11
+- fixed bugs with getIRPowerState() and getIRObstacle()
+- ROVIO_RESET_HOME_IF_DOCKED_ON_CLOSEDOWN set to 0 by default
+- getAPIversion changed to handle "step" C++ API versions such as 0.11
+- some changes to testharness.cc regarding isolation of IR testing + resolution testing
+
+Version 0.1
+- original release
