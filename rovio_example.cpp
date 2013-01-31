@@ -78,18 +78,12 @@ void disp_kinematics(Rovio *robot)
     robot->getForwardKinematics(x,y,omega);
     omega_cumulative += omega;
 
-    cout << "1: x: " << x << " y: " << y << " omega: " << omega
-         << " lastpos: " << lastPos.x << " " << lastPos.y << endl;
-
     // rotate offset by omega
     // reference:
     // http://stackoverflow.com/questions/7953316/rotate-a-point-around-a-point-with-opencv
 
     next.x = cvCeil((x*cos(omega_cumulative) - y*sin(omega_cumulative)) + lastPos.x);
     next.y = cvCeil((x*sin(omega_cumulative) + y*cos(omega_cumulative)) + lastPos.y);
-
-    cout << "2: x: " << x << " y: " << y << " omega cumulative: " << omega_cumulative
-         << " lastpos: " << lastPos.x << " " << lastPos.y << endl << endl;
 
     // draw robot movement
 
