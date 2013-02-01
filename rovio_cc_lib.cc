@@ -1062,8 +1062,6 @@ void Rovio::getForwardKinematics(double& x, double& y, double& omega, bool useAc
     // compute forward dynamics taking into account wheel
     // last rotation direction
 
-    // use rovio kinematics model of John Rogers, GATECH
-
     if (useAccumulated) {
         computeForwardKinematics((double) ((wheelDirL)? wheelAccumulatorL:-1.0*wheelAccumulatorL),
                                  (double) ((wheelDirR)? wheelAccumulatorR:-1.0*wheelAccumulatorR),
