@@ -1,4 +1,5 @@
-// Copyright (c) 2011 Toby Breckon, School of Engineering, Cranfield University
+// Copyright (c) 2011,2012,2013 
+// Toby Breckon, School of Engineering, Cranfield University, UK
 
 // All versions of this software (both binary and source) must retain
 // and display this copyright notice.

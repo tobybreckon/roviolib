@@ -68,13 +68,16 @@ or see:http://curl.haxx.se/libcurl/)
 
 Ensure you have both OpenCV and libCURL installed and configured for use with pkg-config.
 
-A CMakefile and Makefile is provided for linux (and *nix / MacOS) users. By default this builds
-both the testharness and the rovio_example in the current directory using both library
-dependancy configurations provided by pkg-config
+A CMakeLists.txt file is provided is for linux (and *nix / MacOS) users. 
+By default this builds both the testharness and the rovio_example in the 
+current directory. If in doubt build using:
+
+cmake .
+make
 
 To use this library add the rovio_cc_lib.cc and rovio_cc_lib.h files to any project/build
 you are using. We assume you know what your doing in an varient of software build environment
-we use.
+you use.
 
 Build project, .... connect to robot.
 
