@@ -16,11 +16,18 @@ ENDIF ( UNIX )
 # windows (inc. 64-bit specific stuff)
 
 IF ( WIN32 )
+
    set( CMAKE_PREFIX_PATH "C:/OpenCV2.4/build" )
    set( OpenCV_DIR "C:/OpenCV2.4/build" )
+
    set( CMAKE_FIND_LIBRARY_PREFIXES "C:/libCURL" )
    set ( CURL_INCLUDE_DIR "C:/libCURL/include" )  
+   set ( CURL_LINK_DIR "C:/libCURL/lib" )
    set ( CURL_LIBS "libCURL.lib" )	
+
+   include_directories(${CURL_INCLUDE_DIR})
+   link_directories(${CURL_LINK_DIR})
+
    MESSAGE( "WINDOWS CONFIG" )
 
 ENDIF ( WIN32 )
