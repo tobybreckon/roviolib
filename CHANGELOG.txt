@@ -1,11 +1,11 @@
 Version 0.2x
 - forward kinematics provision (robot position in delta X,Y + rotation theta) 
-- provided rovio example updated to display encoders/base station info
+- provided rovio example updated to display encoders/base station info & kinematics display
 - interface to wheel encoder information changed
 - operation to wheel encoders fixed to be accumalative 
   inside Rovio:: object itself (thanks to Phil Ryder)
 - major bug in reading wheel encoders fixed (inspired by Phil Ryder)
-- robot name available as Rovio::name inside robot object
+- robot name available as Rovio->name inside robot object
 - streaming video fixed and cross-platform (thanks to Rudy Anglet)
 - wlan scanning added (available via custom firmware) (thanks to Rudy Anglet)
 - return base station information (thanks to Rudy Anglet)

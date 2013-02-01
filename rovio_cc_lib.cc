@@ -30,7 +30,7 @@ Rovio::Rovio (char* hostname, char* username, char* password)
 
     //setup global hostname
 
-    strcpy_s(name, hostname);
+    strcpy_s(name, strlen(hostname) + 1, hostname);
 
     // setup CURL object(s)
 
