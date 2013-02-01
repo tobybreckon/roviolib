@@ -150,6 +150,7 @@
 #define ROVIO_DEGREE_PER_TICK 2.1160
 #define ROVIO_RADIAN_PER_TICK 0.0369
 #define ROVIO_PI 3.14159265
+#define ROVIO_BASE_DIAMETER 29 // centimetres
 
 // *****************************************************************************
 
@@ -361,20 +362,22 @@ public:
     // return 6 values of the {right,left,rear} wheel encoders
     // *Dir values - {true, false } = {forward, backward}
     // *Tick values - accumulated ticks since last reset
-    // approx.  1cm is equivalent to about 45 ticks.
+    // useAccumulated - if true use the accumulated wheel encoder values (since the last reset)
     // return value: success/failure
 
     bool getWheelEncoders(bool& rightDir, int& rightTicks,
                           bool& leftDir, int& leftTicks,
-                          bool& rearDir, int& rearTicks);
+                          bool& rearDir, int& rearTicks,
+                          bool useAccumulated=true);
 
     // return 2 values of specified wheel encoder
     // dir - {true, false } = {forward, backward}
     // tick - accumulated ticks since last reset
     // wheel - one of {ROVIO_WHEEL_RIGHT, ROVIO_WHEEL_LEFT, ROVIO_WHEEL_REAR}
+    // useAccumulated - if true use the accumulated wheel encoder values (since the last reset)
     // return value: success/failure
 
-    bool getWheelEncoder(bool &dir, int& ticks, int wheel);
+    bool getWheelEncoder(bool &dir, int& ticks, int wheel, bool useAccumulated=true);
 
     // reset wheel encoders to zero (default direction: forwards)
 

@@ -38,7 +38,7 @@ using namespace cv;
 #define TESTHARNESS_TEST_CAMERA_VIDEO 0
 #define TESTHARNESS_TEST_CAMERA_VIDEO_AND_MOTION 0
 #define TESTHARNESS_TEST_CAMERA_SETTINGS 0
-#define TESTHARNESS_TEST_WHEEL_ENCODERS 1
+#define TESTHARNESS_TEST_WHEEL_ENCODERS_KINEMATICS 1
 #define TESTHARNESS_TEST_STAT_INFO 0
 #define TESTHARNESS_TEST_IR 0
 #define TESTHARNESS_TEST_LIGHTS 0
@@ -334,7 +334,7 @@ int main(void)
 
 #endif
 
-#if TESTHARNESS_TEST_WHEEL_ENCODERS
+#if TESTHARNESS_TEST_WHEEL_ENCODERS_KINEMATICS
 
     printf("\n*************** TESTS : TESTHARNESS_TEST_WHEEL_ENCODERS\n\n");
 
@@ -359,7 +359,42 @@ int main(void)
 
     robot->getWheelEncoders(rightDir, rightTicks,
 							leftDir, leftTicks,
-							rearDir, rearTicks);
+                            rearDir, rearTicks);
+
+	for(int i = 0; i < 30; i++)
+    {
+        robot->manualDrive(ROVIO_FORWARD, 2);
+    }
+
+    robot->getWheelEncoder(rightDir, rightTicks,ROVIO_WHEEL_RIGHT, true);
+    robot->getWheelEncoder(leftDir, leftTicks,ROVIO_WHEEL_LEFT, true);
+    robot->getWheelEncoder(rearDir, rearTicks,ROVIO_WHEEL_REAR, true);
+
+    printf("TESTHARNESS: accumulated wheel encoders returned : ldir %d ltick %d "
+               "rdir %d rtick %d "
+               "reardir %d reartick %d \n",
+               leftDir, leftTicks, rightDir, rightTicks,
+               rearDir, rearTicks);
+
+    robot->getWheelEncoder(rightDir, rightTicks,ROVIO_WHEEL_RIGHT, false);
+    robot->getWheelEncoder(leftDir, leftTicks,ROVIO_WHEEL_LEFT, false);
+    robot->getWheelEncoder(rearDir, rearTicks,ROVIO_WHEEL_REAR, false);
+
+    printf("TESTHARNESS: last wheel encoders returned : ldir %d ltick %d "
+               "rdir %d rtick %d "
+               "reardir %d reartick %d \n",
+               leftDir, leftTicks, rightDir, rightTicks,
+               rearDir, rearTicks);
+
+    double x_k,y_k,omega_k;
+
+    robot->getForwardKinematics(x_k,y_k,omega_k, true);
+    printf("TESTHARNESS: accumulated kinematics : ( %d , %d ) @ %d radians",
+           x_k,y_k,omega_k);
+    robot->getForwardKinematics(x_k,y_k,omega_k, false);
+    printf("TESTHARNESS: last move kinematics : ( %d , %d ) @ %d radians",
+           x_k,y_k,omega_k);
+
 #endif
 
 #if TESTHARNESS_TEST_STAT_INFO

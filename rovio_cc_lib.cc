@@ -881,15 +881,22 @@ bool Rovio::setNightMode(bool state, int framerate)
 
 bool Rovio::getWheelEncoders(bool& rightDir, int& rightTicks,
                              bool& leftDir, int& leftTicks,
-                             bool& rearDir, int& rearTicks)
+                             bool& rearDir, int& rearTicks, bool useAccumulated)
 {
-
     rightDir = wheelDirR; // right wheel encoder direction (true = forward/false = back)
-    rightTicks = wheelAccumulatorR; // accumulated right wheel encoder value
     leftDir = wheelDirL; // left wheel encoder direction (true = forward/false = back)
-    leftTicks =  wheelAccumulatorL; // accumulated left wheel encoder value
     rearDir = wheelDirB; // back (rear) wheel encoder direction (true = forward/false = back)
-    rearTicks =  wheelAccumulatorB; // accumulated back wheel encoder value
+
+    if (useAccumulated)
+    {
+        rightTicks = wheelAccumulatorR; // accumulated right wheel encoder value
+        leftTicks =  wheelAccumulatorL; // accumulated left wheel encoder value
+        rearTicks =  wheelAccumulatorB; // accumulated back wheel encoder value
+    } else {
+        rightTicks = wheelLastR; // last read right wheel encoder value
+        leftTicks =  wheelLastL; // last read left wheel encoder value
+        rearTicks =  wheelLastB; // last read back wheel encoder value
+    }
 
     return true; // for backwards compatability with RovioLib 0.1x
 
@@ -897,7 +904,7 @@ bool Rovio::getWheelEncoders(bool& rightDir, int& rightTicks,
 
 // *****************************************************************************
 
-bool Rovio::getWheelEncoder(bool &dir, int& ticks, int wheel)
+bool Rovio::getWheelEncoder(bool &dir, int& ticks, int wheel, bool useAccumulated)
 {
 
     switch (wheel)
@@ -905,19 +912,19 @@ bool Rovio::getWheelEncoder(bool &dir, int& ticks, int wheel)
     case ROVIO_WHEEL_RIGHT:
 
         dir = wheelDirR; // right wheel encoder direction (true = forward/false = back)
-        ticks = wheelAccumulatorR; // accumulated right wheel encoder value
+        ticks = ((useAccumulated)? wheelAccumulatorR:wheelLastR); // accumulated right wheel encoder value
 
         break;
     case ROVIO_WHEEL_LEFT:
 
         dir = wheelDirL; // left wheel encoder direction (true = forward/false = back)
-        ticks =  wheelAccumulatorL; // accumulated left wheel encoder value
+        ticks =  ((useAccumulated)? wheelAccumulatorL:wheelLastL); // accumulated left wheel encoder value
 
         break;
     case ROVIO_WHEEL_REAR:
 
         dir = wheelDirB; // back (rear) wheel encoder direction (true = forward/false = back)
-        ticks =  wheelAccumulatorB; // accumulated back wheel encoder value
+        ticks =  ((useAccumulated)? wheelAccumulatorB:wheelLastB); // accumulated back wheel encoder value
 
         break;
 
@@ -1109,7 +1116,7 @@ void Rovio::computeForwardKinematics(double V_l, double V_r, double V_c,
 
   Vx =  ((V_l * cos((30.0/180) * ROVIO_PI)) + (V_r * cos((150.0/180) * ROVIO_PI))) / 2.0;
   Vy =  ((V_l * sin((30.0/180) * ROVIO_PI)) + (V_r * sin((150.0/180) * ROVIO_PI)) + (V_c * sin((90.0/180) * ROVIO_PI))) / 3.0;
-  omega = V_c / (ROVIO_PI * 29);
+  omega = V_c / (ROVIO_PI * ROVIO_BASE_DIAMETER);
 
   // convert to centimetres and rads.
 

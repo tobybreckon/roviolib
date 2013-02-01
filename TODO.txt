@@ -1,3 +1,5 @@
+- fix cmake for windows (so it finds lib URL)
+
 - add Kalman filtering and/or FIR for the robot position estimation
 http://kujo.cs.pitt.edu/cs1567/index.php/Software
 http://code.google.com/p/cs1567-rovio-project/
