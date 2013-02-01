@@ -30,7 +30,7 @@ Rovio::Rovio (char* hostname, char* username, char* password)
 
     //setup global hostname
 
-    strcpy(name, hostname);
+    strcpy_s(name, hostname);
 
     // setup CURL object(s)
 
@@ -2824,7 +2824,8 @@ size_t ROVIO_CURL_WriteMemoryVideoFrameCallback (void *ptr, size_t size, size_t 
 
 void Rovio::getBaseStationSignalInfo(int &x, int &y, float &theta, int &room, int &ss)
 {
-    x = y = theta = 0;
+    x = y = 0;
+	theta = 0;
 
     // set up a memory write function
 

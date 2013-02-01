@@ -165,7 +165,7 @@
 // default RovioLib behaviour is to update the wheel encoder accumulators after
 // each drive command issued to the robot
 
-#define ROVIO_WILL_UPDATE_WHEEL_ENCODERS_AFTER_DRIVE_COMMAND true
+#define ROVIO_WILL_UPDATE_WHEEL_ENCODERS_AFTER_DRIVE_COMMAND 1
 
 // *****************************************************************************
 
