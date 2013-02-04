@@ -1011,7 +1011,7 @@ bool Rovio::updateWheelEncoders()
             hex_short[3] = ptr[15];
             hex_short[4] = '\0';
             wheelLastR = (int) (strtol(hex_short, NULL, 16));
-            wheelAccumulatorR += wheelLastL;
+            wheelAccumulatorR += wheelLastR;
 
             // extract byte 9 (from 17th hex nibble)
 
@@ -1080,8 +1080,7 @@ void Rovio::getForwardKinematics(double& x, double& y, double& omega, bool useAc
 // follows the Rovio forward kinematics model/code
 // from University of Pittsburgh CS 1567 note
 // "Many views of the world Coordinate systems and sensor data
-// Mapping to a common reference" with encoder constants from
-// John Rogers, Georgia Institute of Technology
+// Mapping to a common reference"
 
 // Some code from John Rogers, jgrogers@cc.gatech.edu
 // Copyright (C) 2009 Georgia Institute of Technology)
@@ -1110,7 +1109,7 @@ void Rovio::computeForwardKinematics(double V_l, double V_r, double V_c,
 
   // **** University of Pittsburgh CS 1567 kinematics model
 
-  // all meaures in "ticks" of encdoers (some of this dould be pre-computed - yes)
+  // all meaures in "ticks" of encdoers (some of this could be pre-computed - yes)
 
   Vx =  ((V_l * cos((30.0/180) * ROVIO_PI)) + (V_r * cos((150.0/180) * ROVIO_PI))) / 2.0;
   Vy =  ((V_l * sin((30.0/180) * ROVIO_PI)) + (V_r * sin((150.0/180) * ROVIO_PI)) + (V_c * sin((90.0/180) * ROVIO_PI))) / 3.0;

@@ -78,9 +78,7 @@ void disp_kinematics(Rovio *robot)
     robot->getForwardKinematics(x,y,omega);
     omega_cumulative += omega;
 
-    // rotate offset by omega
-    // reference:
-    // http://stackoverflow.com/questions/7953316/rotate-a-point-around-a-point-with-opencv
+    // rotate offset by omega then add to last position
 
     next.x = cvCeil((x*cos(omega_cumulative) - y*sin(omega_cumulative)) + lastPos.x);
     next.y = cvCeil((x*sin(omega_cumulative) + y*cos(omega_cumulative)) + lastPos.y);
