@@ -2,7 +2,7 @@
 
 // Rovio API C++ Class Library : C++ Interface to Rovio Robot API
 
-// Copyright (c) 2011 Toby Breckon, School of Engineering, Cranfield University
+// Copyright (c) 2011-2013 Toby Breckon, School of Engineering, Cranfield University
 // License : GPL - http://www.gnu.org/copyleft/gpl.html
 
 // *****************************************************************************
