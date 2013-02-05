@@ -1,6 +1,7 @@
 // *****************************************************************************
 
 // Example: controlling the rovio robot using the RovioLib C++ API
+// usage: rovio_example [<hostname> <username> <pass>]
 
 // Dependancies : OpenCV 2.1 (or later), libCurl 7.18 (or later),
 //                RovioLib C++ API 1.3 or later
@@ -51,8 +52,8 @@ void disp_kinematics(Rovio *robot)
     static string windowName = (string) "Robot Kinematics View :"
                                 + (string) robot->name; // window name
     static bool firstCall = false;
-    static Point lastPos = Point(25, 25);
-    static Mat map_img = Mat::zeros(500, 500, CV_8UC3);
+    static Point lastPos = Point(125, 125);
+    static Mat map_img = Mat::zeros(250, 250, CV_8UC3);
     static double omega_cumulative = 0; // accumulated rotation
     static int lastR = 0;
     static int lastL = 0;
@@ -86,11 +87,11 @@ void disp_kinematics(Rovio *robot)
 
         // check we are still on map (!)
 
-        if ((lastPos.x < 0) || (lastPos.y < 0) || (lastPos.x > 500 ) || (lastPos.y > 500))
+        if ((lastPos.x < 0) || (lastPos.y < 0) || (lastPos.x > 250 ) || (lastPos.y > 250))
         {
             // if not reset us to the origin (and redraw map)
             lastPos = Point(25, 25);
-            map_img = Mat::zeros(500, 500, CV_8UC3);
+            map_img = Mat::zeros(250, 250, CV_8UC3);
         }
 
         // get kinematic from last robot robot
@@ -303,10 +304,10 @@ int main(int argc, char** argv ) {
 
         // check for obstacles and avoid
 
-        /* if (robot->getIRObstacle())
+        if (robot->getIRObstacle())
         {
             do_obstcale_avoid(robot, random);
-        } */
+        }
 
         // check battery level (go to dock if low)
 
@@ -328,9 +329,9 @@ int main(int argc, char** argv ) {
 
         // make exploration moves
 
-        /* robot->manualDrive(ROVIO_FORWARD, 5);
+        robot->manualDrive(ROVIO_FORWARD, 5);
         robot->waitUntilComplete(-1);
-        backOff++; */
+        backOff++;
 
         disp_cam_image(robot);
         disp_kinematics(robot);
@@ -357,7 +358,7 @@ int main(int argc, char** argv ) {
         if (key == 'x')
         {
             keepExploring = false;
-        } else if (key == 'f') {
+        } /* else if (key == 'f') {
             robot->manualDrive(ROVIO_FORWARD, 5);
         } else if (key == 'b') {
             robot->manualDrive(ROVIO_BACKWARD, 5);
@@ -365,7 +366,7 @@ int main(int argc, char** argv ) {
             robot->manualDrive(ROVIO_TURNRIGHT, 5);
         } else if (key == 'l') {
             robot->manualDrive(ROVIO_TURNLEFT, 5);
-        }
+        } */
     }
 
     return 0;
