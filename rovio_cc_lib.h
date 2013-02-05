@@ -6,7 +6,7 @@
 
 // Author : Toby Breckon, toby.breckon@cranfield.ac.uk
 
-// Copyright (c) 2011 Toby Breckon, School of Engineering, Cranfield University
+// Copyright (c) 2011-2013 Toby Breckon, School of Engineering, Cranfield University
 // License : GPL - http://www.gnu.org/copyleft/gpl.html
 
 // Platform Support : Linux (GCC 4.x) / Windows (32-bit, XP/Vista/7)
