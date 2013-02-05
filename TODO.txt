@@ -1,5 +1,3 @@
-- fix cmake for windows (so it finds libCURL)
-
 - add Kalman filtering and/or FIR for the robot position estimation
 http://kujo.cs.pitt.edu/cs1567/index.php/Software
 http://code.google.com/p/cs1567-rovio-project/
@@ -7,7 +5,7 @@ http://code.google.com/p/cs1567-rovio-project/
 - add X/Y positioning (using item above)
 See slides @ http://kujo.cs.pitt.edu/cs1567/index.php/Assignments 
 
-- audio streaming
+- audio streaming (send + receive)
 - manual drive parameter setting from API 1.3
 
 - produce doxygen documentation
