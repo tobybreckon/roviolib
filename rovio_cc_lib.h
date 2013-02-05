@@ -176,7 +176,7 @@
 
 #define ROVIO_CPP_API_VERSION_MAJOR 0
 #define ROVIO_CPP_API_VERSION_MINOR 2
-#define ROVIO_CPP_API_VERSION_MINOR_STEP 0
+#define ROVIO_CPP_API_VERSION_MINOR_STEP 1
 
 // *****************************************************************************
 
