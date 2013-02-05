@@ -90,7 +90,7 @@ void disp_kinematics(Rovio *robot)
         if ((lastPos.x < 0) || (lastPos.y < 0) || (lastPos.x > 250 ) || (lastPos.y > 250))
         {
             // if not reset us to the origin (and redraw map)
-            lastPos = Point(25, 25);
+            lastPos = Point(125, 125);
             map_img = Mat::zeros(250, 250, CV_8UC3);
         }
 
