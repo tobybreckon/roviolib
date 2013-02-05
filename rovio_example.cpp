@@ -7,7 +7,7 @@
 
 // Author : Toby Breckon, toby.breckon@cranfield.ac.uk
 
-// Copyright (c) 2011 Toby Breckon, School of Engineering, Cranfield University
+// Copyright (c) 2011-2013 Toby Breckon, School of Engineering, Cranfield University
 // License : GPL - http://www.gnu.org/copyleft/gpl.html
 
 // *****************************************************************************
@@ -42,19 +42,28 @@ using namespace cv;
 
 // *****************************************************************************
 
-// do basic display of robot position
+// do basic display of robot position and path
 
 void disp_kinematics(Rovio *robot)
 {
+    // static values (preserved across calls)
+
     static string windowName = (string) "Robot Kinematics View :"
                                 + (string) robot->name; // window name
     static bool firstCall = false;
     static Point lastPos = Point(25, 25);
-    static Mat img = Mat::zeros(500, 500, CV_8UC3);
+    static Mat map_img = Mat::zeros(500, 500, CV_8UC3);
     static double omega_cumulative = 0; // accumulated rotation
+    static int lastR = 0;
+    static int lastL = 0;
+    static int lastB = 0;
+
+    // current values (used in this call)
 
     double x, y, omega; // kinematics values
-    Point next; // next positio of robot on map
+    int wheelR, wheelL, wheelB; // wheel encoder values
+    bool dirR, dirL, dirB; // wheel encoder directions
+    Point next; // next position of robot on map
 
     // first time called - create window
 
@@ -64,31 +73,53 @@ void disp_kinematics(Rovio *robot)
         firstCall = true;
     }
 
-    // check we are still on map (!)
+    // get wheel encoder values
 
-    if ((lastPos.x < 0) || (lastPos.y < 0) || (lastPos.x > 500 ) || (lastPos.y > 500))
+    robot->getWheelEncoders(dirR, wheelR, dirL, wheelL, dirB, wheelB);
+
+    // see if we have moved at all
+
+    if ((lastR != wheelR) || (lastL != wheelL) || (lastB != wheelB))
     {
-        // if not reset us to the origin (and redraw map)
-        lastPos = Point(25, 25);
-        img = Mat::zeros(500, 500, CV_8UC3);
+
+        // **only** if we have moved then update kinematics display
+
+        // check we are still on map (!)
+
+        if ((lastPos.x < 0) || (lastPos.y < 0) || (lastPos.x > 500 ) || (lastPos.y > 500))
+        {
+            // if not reset us to the origin (and redraw map)
+            lastPos = Point(25, 25);
+            map_img = Mat::zeros(500, 500, CV_8UC3);
+        }
+
+        // get kinematic from last robot robot
+
+        robot->getForwardKinematics(x,y,omega);
+        omega_cumulative += omega;
+
+        // rotate offset by omega then add to last position
+
+        next.x = cvCeil((x*cos(omega_cumulative) - y*sin(omega_cumulative)) + lastPos.x);
+        next.y = cvCeil((x*sin(omega_cumulative) + y*cos(omega_cumulative)) + lastPos.y);
+
+        // draw robot movement
+
+        line(map_img, lastPos, next, Scalar(255,0,0), 2);
+
+        // update position
+
+        lastPos = next; // where we are now is where we start next time
+
     }
 
-    // get kinematic from robot
+    // in all cases, update record of last move and display map
 
-    robot->getForwardKinematics(x,y,omega);
-    omega_cumulative += omega;
+    lastR = wheelR;
+    lastL = wheelL;
+    lastB = wheelB;
 
-    // rotate offset by omega then add to last position
-
-    next.x = cvCeil((x*cos(omega_cumulative) - y*sin(omega_cumulative)) + lastPos.x);
-    next.y = cvCeil((x*sin(omega_cumulative) + y*cos(omega_cumulative)) + lastPos.y);
-
-    // draw robot movement
-
-    line(img, lastPos, next, Scalar(255,0,0), 2);
-    imshow(windowName, img);
-
-    lastPos = next; // where we are now is where we start next time
+    imshow(windowName, map_img);
 
 }
 
@@ -272,10 +303,10 @@ int main(int argc, char** argv ) {
 
         // check for obstacles and avoid
 
-        if (robot->getIRObstacle())
+        /* if (robot->getIRObstacle())
         {
             do_obstcale_avoid(robot, random);
-        }
+        } */
 
         // check battery level (go to dock if low)
 
@@ -297,9 +328,9 @@ int main(int argc, char** argv ) {
 
         // make exploration moves
 
-        robot->manualDrive(ROVIO_FORWARD, 5);
+        /* robot->manualDrive(ROVIO_FORWARD, 5);
         robot->waitUntilComplete(-1);
-        backOff++;
+        backOff++; */
 
         disp_cam_image(robot);
         disp_kinematics(robot);
@@ -326,8 +357,15 @@ int main(int argc, char** argv ) {
         if (key == 'x')
         {
             keepExploring = false;
+        } else if (key == 'f') {
+            robot->manualDrive(ROVIO_FORWARD, 5);
+        } else if (key == 'b') {
+            robot->manualDrive(ROVIO_BACKWARD, 5);
+        } else if (key == 'r') {
+            robot->manualDrive(ROVIO_TURNRIGHT, 5);
+        } else if (key == 'l') {
+            robot->manualDrive(ROVIO_TURNLEFT, 5);
         }
-
     }
 
     return 0;
