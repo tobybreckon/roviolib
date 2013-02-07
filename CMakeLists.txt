@@ -1,3 +1,6 @@
+# RovioLib CMake File - http://www.cmake.org/
+# Toby Breckon, 2013
+
 cmake_minimum_required (VERSION 2.6)
 set( CMAKE_CXX_FLAGS "-O3 -Wall ${CMAKE_CXX_FLAGS}" )
 
@@ -6,29 +9,36 @@ set( CMAKE_CXX_FLAGS "-O3 -Wall ${CMAKE_CXX_FLAGS}" )
 # linux specific stuff
 
 IF ( UNIX )
-   set( CMAKE_PREFIX_PATH "/opt/opencv-2.4.2" )
+   MESSAGE( "USING LINUX CONFIG" )
+   set( CMAKE_PREFIX_PATH "/opt/opencv" )
+   MESSAGE( "Assuming OpenCV in " ${CMAKE_PREFIX_PATH} " unless detected otherwise" )
    set( CMAKE_FIND_LIBRARY_PREFIXES "/usr" )
    set( CURL_INCLUDE_DIR "/usr/include/curl" )
    set( CMAKE_CXX_FLAGS "-lpthread -lcurl")
-   MESSAGE( "LINUX CONFIG" )
 ENDIF ( UNIX )
 
 # windows (inc. 64-bit specific stuff)
 
 IF ( WIN32 )
+   MESSAGE( "USING MS WINDOWS 32/64 CONFIG" )
 
-   set( CMAKE_PREFIX_PATH "C:/OpenCV2.4/build" )
    set( OpenCV_DIR "C:/OpenCV2.4/build" )
+   set( CMAKE_PREFIX_PATH "C:/OpenCV2.4/build" )
+   MESSAGE( "Assuming OpenCV in " ${OpenCV_DIR} " unless detected otherwise")
 
-   set( CMAKE_FIND_LIBRARY_PREFIXES "C:/libCURL" )
+   MESSAGE( "Assuming libCURL in C:/libCURL or C:/Program Files/libCURL unless detected otherwise")
+   set( CMAKE_FIND_LIBRARY_PREFIXES "C:/libCURL;C:/Program Files/libCURL" )
    set ( CURL_INCLUDE_DIR "C:/libCURL/include" )  
    set ( CURL_LINK_DIR "C:/libCURL/lib" )
-   set ( CURL_LIBS "libCURL.lib" )	
-
    include_directories(${CURL_INCLUDE_DIR})
    link_directories(${CURL_LINK_DIR})
 
-   MESSAGE( "WINDOWS CONFIG" )
+   set ( CURL_INCLUDE_DIR "C:/Program Files/libCURL/include" )  
+   set ( CURL_LINK_DIR "C:/Program Files/libCURL/lib" )
+   include_directories(${CURL_INCLUDE_DIR})
+   link_directories(${CURL_LINK_DIR})
+
+   set ( CURL_LIBS "libCURL.lib" )	
 
 ENDIF ( WIN32 )
 
