@@ -1,8 +1,12 @@
+Version 0.22 (pre)
+- AWB, AEC camera control added (details thanks to Robin Vanhove)
+- for consistency AGC is now on by default (like AWB and AEC)
+
 Version 0.2x
-- forward kinematics provision (robot position in delta X,Y + rotation theta) 
+- forward kinematics provision (robot position in delta X,Y + rotation theta)
 - provided rovio example updated to display encoders/base station info & kinematics display
 - interface to wheel encoder information changed
-- operation to wheel encoders fixed to be accumalative 
+- operation to wheel encoders fixed to be accumalative
   inside Rovio:: object itself (thanks to Phil Ryder)
 - major bug in reading wheel encoders fixed (inspired by Phil Ryder)
 - robot name available as Rovio->name inside robot object

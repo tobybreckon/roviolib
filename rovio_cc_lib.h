@@ -35,9 +35,11 @@
 #define ROVIO_IMAGE_DEFAULT_SATURATION -1
 #define ROVIO_IMAGE_DEFAULT_HUE -1
 #define ROVIO_IMAGE_DEFAULT_FRAMERATE 25
+#define ROVIO_IMAGE_DEFAULT_AGC_STATE 1
+#define ROVIO_IMAGE_DEFAULT_AWB_STATE 1
+#define ROVIO_IMAGE_DEFAULT_AEC_STATE 1
 #define ROVIO_IMAGE_DEFAULT_COMPRESSION 1
 #define ROVIO_IMAGE_DEFAULT_FREQ_COMPENSATION 0
-#define ROVIO_IMAGE_DEFAULT_AGC_STATE 0
 #define ROVIO_IMAGE_DEFAULT_NIGHT_MODE_STATE 0
 #define ROVIO_IMAGE_DEFAULT_CONTRAST_LEVEL 48
 #define ROVIO_IR_DEFAULT_POWER_STATE 1
@@ -343,6 +345,18 @@ public:
     // return value: success/failure
 
     bool setAGC(bool state);
+
+    // set Automatic White Balance (AWB)
+    // state = on (true) or off (false)
+    // return value: success/failure
+
+    bool setAWB(bool state);
+
+    // set Automatic Exposure Control (AEC)
+    // state = on (true) or off (false)
+    // return value: success/failure
+
+    bool setAEC(bool state);
 
     // set night mode on camera
     // state = on (true) or off (false)

@@ -37,8 +37,8 @@ using namespace cv;
 #define TESTHARNESS_TEST_CAMERA_IMG 0
 #define TESTHARNESS_TEST_CAMERA_VIDEO 0
 #define TESTHARNESS_TEST_CAMERA_VIDEO_AND_MOTION 0
-#define TESTHARNESS_TEST_CAMERA_SETTINGS 0
-#define TESTHARNESS_TEST_WHEEL_ENCODERS_KINEMATICS 1
+#define TESTHARNESS_TEST_CAMERA_SETTINGS 1
+#define TESTHARNESS_TEST_WHEEL_ENCODERS_KINEMATICS 0
 #define TESTHARNESS_TEST_STAT_INFO 0
 #define TESTHARNESS_TEST_IR 0
 #define TESTHARNESS_TEST_LIGHTS 0
@@ -47,7 +47,7 @@ using namespace cv;
 #define TESTHARNESS_TEST_USER 0
 #define TESTHARNESS_TEST_REBOOT 0	  // causes MS Windows to disconnect if Ad-Hoc
 #define TESTHARNESS_TEST_WLAN_SCAN 0
-#define TESTHARNESS_TEST_BASE_STATION_INFO 1
+#define TESTHARNESS_TEST_BASE_STATION_INFO 0
 #define TESTHARNESS_TEST_INFO_STRINGS 0
 
 // *****************************************************************************
@@ -306,6 +306,32 @@ int main(void)
 	imshow(windowName, img);
 	waitKey(40);
 	robot->setAGC(false);
+	img = robot->getImage(CV_LOAD_IMAGE_UNCHANGED);
+	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
+	imshow(windowName, img);
+	waitKey(40);
+
+	// test AWB set
+
+	robot->setAWB(true);
+	img = robot->getImage(CV_LOAD_IMAGE_UNCHANGED);
+	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
+	imshow(windowName, img);
+	waitKey(40);
+	robot->setAWB(false);
+	img = robot->getImage(CV_LOAD_IMAGE_UNCHANGED);
+	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
+	imshow(windowName, img);
+	waitKey(40);
+
+	// test AWB set
+
+	robot->setAEC(true);
+	img = robot->getImage(CV_LOAD_IMAGE_UNCHANGED);
+	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
+	imshow(windowName, img);
+	waitKey(40);
+	robot->setAEC(false);
 	img = robot->getImage(CV_LOAD_IMAGE_UNCHANGED);
 	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
 	imshow(windowName, img);

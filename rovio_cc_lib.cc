@@ -780,14 +780,12 @@ bool Rovio::setAGC(bool state)
     // if AGC on / off consturct command
 
     // sets AGC ceiling using http://.../debug.cgi?action=write_i2c&address=0x14&value=0xn8
-    // where last n = 0,1,2,....,6 (default appears to be when n=1
+    // where last n = 0,1,2,....,6 (default appears to be when n=1)
 
     if (state)
     {
         sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE, "/debug.cgi?action=write_i2c&address=0x14&value=0x68");
-    }
-    else
-    {
+    } else {
         sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE, "/debug.cgi?action=write_i2c&address=0x14&value=0x18");
     }
 
@@ -806,6 +804,166 @@ bool Rovio::setAGC(bool state)
     {
         return true;
     }
+
+    return false;
+}
+
+// *****************************************************************************
+
+bool Rovio::setAWB(bool state)
+{
+
+    char commandStringStem[ROVIO_COMMUNICATION_URL_MEMORY_SIZE];
+    unsigned char setting = 0;
+
+    // first get current setting
+
+        // set up a memory write function
+
+        curl_easy_setopt(curlCom, CURLOPT_WRITEFUNCTION, ROVIO_CURL_WriteMemoryCallback);
+        curl_easy_setopt(curlCom,CURLOPT_WRITEDATA, (void *) &buffer);
+
+        // send the command
+
+        sendToRobot((char *) "debug.cgi?action=read_i2c&address=0x13");
+
+        // extract frequency information from the buffer
+
+        if (buffer.memory)
+        {
+            char* ptr = strstr(buffer.memory, "read_i2c = 00000013=");
+            if (ptr)
+            {
+                // N.B. returned string is of format
+                // read_i2c = 00000013=000000f4
+
+                ptr += strlen("read_i2c = 00000013=0000");
+                if (ptr < (buffer.memory + buffer.size))
+                {
+                    sscanf_s(ptr, "%x\n", &setting);
+                }
+            }
+
+            if (verboseMode)
+            {
+                printf("ROVIO: AWB setting from robot : %d\n", getBitN(setting, 1));
+            }
+        }
+
+        // reset buffer
+
+        clearBuffer();
+
+
+    // if AWB on / off construct command
+
+
+        if (state)
+        {
+            setting |= (1 << 1); // set bit 2, i.e. index 1
+            sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE,
+                      "/debug.cgi?action=write_i2c&address=0x13&value=0x%x", setting);
+        } else {
+            setting &= ~(1 << 1); // clear bit 2, i.e. index 1
+            sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE,
+                      "/debug.cgi?action=write_i2c&address=0x13&value=0x%x", setting);
+        }
+
+        if (verboseMode)
+        {
+            printf("ROVIO: AWB command @ setting : %d\n", state);
+        }
+
+        // set up a NULL write function
+
+        curl_easy_setopt(curlCom, CURLOPT_WRITEFUNCTION, NULLWriteFunction);
+
+        // if return code is zero, then all OK
+
+        if (sendToRobot(commandStringStem) == ROVIO_HTTP_RETURN_CODE_ALL_OK)
+        {
+            return true;
+        }
+
+    return false;
+}
+
+// *****************************************************************************
+
+bool Rovio::setAEC(bool state)
+{
+
+    char commandStringStem[ROVIO_COMMUNICATION_URL_MEMORY_SIZE];
+    unsigned char setting = 0;
+
+    // first get current setting
+
+        // set up a memory write function
+
+        curl_easy_setopt(curlCom, CURLOPT_WRITEFUNCTION, ROVIO_CURL_WriteMemoryCallback);
+        curl_easy_setopt(curlCom,CURLOPT_WRITEDATA, (void *) &buffer);
+
+        // send the command
+
+        sendToRobot((char *) "debug.cgi?action=read_i2c&address=0x13");
+
+        // extract frequency information from the buffer
+
+        if (buffer.memory)
+        {
+            char* ptr = strstr(buffer.memory, "read_i2c = 00000013=");
+            if (ptr)
+            {
+                // N.B. returned string is of format
+                // read_i2c = 00000013=000000f4
+
+                ptr += strlen("read_i2c = 00000013=0000");
+                if (ptr < (buffer.memory + buffer.size))
+                {
+                    sscanf_s(ptr, "%x\n", &setting);
+                }
+            }
+
+            if (verboseMode)
+            {
+                printf("ROVIO: AEC setting from robot : %d\n", getBitN(setting, 0));
+            }
+        }
+
+        // reset buffer
+
+        clearBuffer();
+
+
+    // if AEC on / off construct command
+
+
+        if (state)
+        {
+            setting |= (1 << 1); // set bit 1, i.e. index 0
+            sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE,
+                      "/debug.cgi?action=write_i2c&address=0x13&value=0x%x", setting);
+        } else {
+            setting &= ~(1 << 1); // clear bit 1, i.e. index 0
+            sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE,
+                      "/debug.cgi?action=write_i2c&address=0x13&value=0x%x", setting);
+        }
+
+        if (verboseMode)
+        {
+            printf("ROVIO: AEC command @ setting : %d\n", state);
+        }
+
+        // set up a NULL write function
+
+        curl_easy_setopt(curlCom, CURLOPT_WRITEFUNCTION, NULLWriteFunction);
+
+        // if return code is zero, then all OK
+
+        if (sendToRobot(commandStringStem) == ROVIO_HTTP_RETURN_CODE_ALL_OK)
+        {
+            return true;
+        }
 
     return false;
 }
@@ -2376,6 +2534,8 @@ Rovio::~Rovio()
         setLightState(ROVIO_LIGHT_DEFAULT_STATE_ALL);
         setHeadLightState(ROVIO_HEADLIGHT_DEFAULT_STATE);
         setAGC(ROVIO_IMAGE_DEFAULT_AGC_STATE);
+        setAWB(ROVIO_IMAGE_DEFAULT_AWB_STATE);
+        setAEC(ROVIO_IMAGE_DEFAULT_AEC_STATE);
         setNightMode(ROVIO_IMAGE_DEFAULT_NIGHT_MODE_STATE);
         manualDrive(ROVIO_HEADDOWN, ROVIO_HEAD_DEFAULT_POSITION);
 
