@@ -32,8 +32,6 @@
 
 #define ROVIO_IMAGE_DEFAULT_RESOLUTION 3
 #define ROVIO_IMAGE_DEFAULT_BRIGHTNESS 3
-#define ROVIO_IMAGE_DEFAULT_SATURATION -1
-#define ROVIO_IMAGE_DEFAULT_HUE -1
 #define ROVIO_IMAGE_DEFAULT_FRAMERATE 25
 #define ROVIO_IMAGE_DEFAULT_AGC_STATE 1
 #define ROVIO_IMAGE_DEFAULT_AWB_STATE 1
@@ -181,7 +179,7 @@
 
 #define ROVIO_CPP_API_VERSION_MAJOR 0
 #define ROVIO_CPP_API_VERSION_MINOR 2
-#define ROVIO_CPP_API_VERSION_MINOR_STEP 1
+#define ROVIO_CPP_API_VERSION_MINOR_STEP 2
 
 // *****************************************************************************
 
@@ -362,7 +360,7 @@ public:
 
     bool setAEC(bool state);
 
-    // set Automatic Exposure Control (AWB) gain levels for each RGB channel
+    // set Automatic White Balance (AWB) gain levels for each RGB channel
     // R,G,B = gain value for each of (R,G,B) channels (range: 0 -> 255)
     // reset = true (reset defaults) or false (set Gain as r,g,b values)
     // return value: success/failure
