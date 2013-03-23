@@ -324,7 +324,7 @@ int main(void)
 	imshow(windowName, img);
 	waitKey(40);
 
-	// test AWB set
+	// test AEC set
 
 	robot->setAEC(true);
 	img = robot->getImage(CV_LOAD_IMAGE_UNCHANGED);
@@ -332,6 +332,24 @@ int main(void)
 	imshow(windowName, img);
 	waitKey(40);
 	robot->setAEC(false);
+	img = robot->getImage(CV_LOAD_IMAGE_UNCHANGED);
+	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
+	imshow(windowName, img);
+	waitKey(40);
+
+	// test AWB gains levels
+
+	robot->setAWBGain(255,0,255,false);
+	img = robot->getImage(CV_LOAD_IMAGE_UNCHANGED);
+	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
+	imshow(windowName, img);
+	waitKey(40);
+	robot->setAWBGain(0,0,50,false);
+	img = robot->getImage(CV_LOAD_IMAGE_UNCHANGED);
+	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
+	imshow(windowName, img);
+	waitKey(40);
+	robot->setAWBGain(0,0,0,true);
 	img = robot->getImage(CV_LOAD_IMAGE_UNCHANGED);
 	namedWindow(windowName, CV_WINDOW_AUTOSIZE);
 	imshow(windowName, img);

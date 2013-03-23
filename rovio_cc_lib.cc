@@ -890,6 +890,56 @@ bool Rovio::setAWB(bool state)
 
 // *****************************************************************************
 
+bool Rovio::setAWBGain(unsigned char R, unsigned char G, unsigned char B, bool reset)
+{
+    char commandStringStem[ROVIO_COMMUNICATION_URL_MEMORY_SIZE];
+    bool r,g,b; // return values
+
+    // set up a NULL write function
+
+    curl_easy_setopt(curlCom, CURLOPT_WRITEFUNCTION, NULLWriteFunction);
+
+    // set AWB Gains
+
+    if (reset)
+    {
+        sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE,
+                "/debug.cgi?action=write_i2c&address=0x01&value=0x%x", ROVIO_IMAGE_DEFAULT_AWB_GAIN_B);
+        b = (sendToRobot(commandStringStem) == ROVIO_HTTP_RETURN_CODE_ALL_OK);
+        sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE,
+                "/debug.cgi?action=write_i2c&address=0x02&value=0x%x", ROVIO_IMAGE_DEFAULT_AWB_GAIN_R);
+        r = (sendToRobot(commandStringStem) == ROVIO_HTTP_RETURN_CODE_ALL_OK);
+        sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE,
+                "/debug.cgi?action=write_i2c&address=0x02&value=0x%x", ROVIO_IMAGE_DEFAULT_AWB_GAIN_G);
+        g = (sendToRobot(commandStringStem) == ROVIO_HTTP_RETURN_CODE_ALL_OK);
+
+    } else {
+
+        sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE,
+                "/debug.cgi?action=write_i2c&address=0x01&value=0x%x", B);
+        b = (sendToRobot(commandStringStem) == ROVIO_HTTP_RETURN_CODE_ALL_OK);
+        sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE,
+                "/debug.cgi?action=write_i2c&address=0x02&value=0x%x", R);
+        r = (sendToRobot(commandStringStem) == ROVIO_HTTP_RETURN_CODE_ALL_OK);
+        sprintf_s(commandStringStem, ROVIO_COMMUNICATION_URL_MEMORY_SIZE,
+                "/debug.cgi?action=write_i2c&address=0x02&value=0x%x", G);
+        g = (sendToRobot(commandStringStem) == ROVIO_HTTP_RETURN_CODE_ALL_OK);
+
+    }
+
+    if (verboseMode)
+    {
+        printf("ROVIO: AWB Gain command @ setting : %d %d %d reset = %i\n", R, G, B, reset);
+    }
+
+    // if return code is zero, then all OK
+
+    return (r && b && g);
+
+}
+
+// *****************************************************************************
+
 bool Rovio::setAEC(bool state)
 {
 
@@ -2536,6 +2586,7 @@ Rovio::~Rovio()
         setAGC(ROVIO_IMAGE_DEFAULT_AGC_STATE);
         setAWB(ROVIO_IMAGE_DEFAULT_AWB_STATE);
         setAEC(ROVIO_IMAGE_DEFAULT_AEC_STATE);
+        setAWBGain(0, 0, 0, true);
         setNightMode(ROVIO_IMAGE_DEFAULT_NIGHT_MODE_STATE);
         manualDrive(ROVIO_HEADDOWN, ROVIO_HEAD_DEFAULT_POSITION);
 

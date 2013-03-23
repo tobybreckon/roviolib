@@ -1,5 +1,6 @@
 Version 0.22 (pre)
 - AWB, AEC camera control added (details thanks to Robin Vanhove)
+- AWB gain levels for R,G,B channels can be individually set (details thanks to Robin Vanhove)
 - for consistency AGC is now on by default (like AWB and AEC)
 
 Version 0.2x
