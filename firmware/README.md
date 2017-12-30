@@ -1,7 +1,7 @@
 # RovioFirmware_v5_03_bin.zip - Original Firmware
 
--- Original Manufacturer Firmware - Version 5.03
--- Credit: Wowee Inc.
+- Original Manufacturer Firmware - Version 5.03
+- Credit: Wowee Inc.
 
 # img_spi_update__camera.bin - Custom Firmware
 
@@ -14,4 +14,6 @@ In the spirit of open source both the firmware itself (.bin) and the src
 changes (.tgz) to the original open source firmware available from the
 Rovio manufacturer (via www.robocommunity.com) are detailed here.
 
--- Full Credit to Rudy Anglet, MSc student, Cranfield University, 2012.
+Changes are against [original firmware source](https://github.com/jcrona/rovio-fw).
+
+- Full Credit to Rudy Anglet, MSc student, Cranfield University, 2012.
