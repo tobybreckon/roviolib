@@ -1,0 +1,11 @@
+\Host\LibCamera\Src\version.c
+line 44: added custom 
+
+\Host\LibCamera\Src\Wireless\wlan0.h
+line 35: added Config_ScanWlanExt
+
+\Host\LibCamera\Src\Wireless\wlan0.c
+line 1311: added Config_ScanWlanExt
+
+\Host\LibCamera\Src\LibIPCamera.c
+line 891: added RegisterSubCmd("ScanWlanEXT.cgi", Config_ScanWlanExt);
