@@ -35,3 +35,21 @@ This is designed to exercise each and every method in the library with both vali
 invalid options. It is not intended to control the robot in a useful way. Note the
 on/off test switches (#define TESTHARNESS_ ....) at the top of the file to turn on/off
 test harness functionality. Use this example to isolate bugs in the library as required.
+
+
+---
+
+If referencing this library in your own work please use:
+```
+@InProceedings{cavestany15robot,
+  author = 	 {Cavestany, P. and Rodriguez, A.L. and Martinez-Barbera, H. and Breckon, T.P.},
+  title = 	 {Improved 3D Sparse Maps for High-performance Structure from Motion with Low-cost Omnidirectional Robots},
+  booktitle = 	 {Proc. International Conference on Image Processing},
+  pages = 	 {4927-4931},
+  year = 	 {2015},
+  month = 	 {September},
+  publisher =    {IEEE}, 
+  doi = 	 {10.1109/ICIP.2015.7351744},
+}
+```
+--- 
